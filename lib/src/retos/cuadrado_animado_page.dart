@@ -44,8 +44,9 @@ Animation<double>? moveDown;
 
     controller!.addListener(() {
       
-        if(controller!.status == AnimationStatus.completed)
-            controller!.reset();
+        if(controller!.status == AnimationStatus.completed) {
+          controller!.reset();
+        }
 
     });
 
