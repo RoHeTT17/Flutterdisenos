@@ -5,9 +5,21 @@ import 'package:flutter/material.dart';
 
 class RadialProgress extends StatefulWidget {
 
-  final porcentaje;
+  final double  porcentaje;
+  final Color?  colorPrimario;
+  final Color?  colorSecundario;
+  final double? grosorStrokFondo;
+  final double? grosorStrokArco;
 
-  const RadialProgress({Key? key, required this.porcentaje}) : super(key: key);
+
+  const RadialProgress({
+    Key? key, 
+    required this.porcentaje,
+             this.colorPrimario    = Colors.blue, 
+             this.colorSecundario  = Colors.purple, 
+             this.grosorStrokFondo = 4, 
+             this.grosorStrokArco  = 10
+  }) : super(key: key);
 
   @override
   State<RadialProgress> createState() => _RadialProgressState();
@@ -41,10 +53,9 @@ class _RadialProgressState extends State<RadialProgress> with SingleTickerProvid
     controller.forward(from: 0);  
 
     // Aquí nos dice el procentaje a animar
-    final diferenciaAnimar = widget.porcentaje - porcentajeAnterio;
+    final diferenciaAnimar = widget.porcentaje - porcentajeAnterio!;
     //Tener el porcentaje después de la diferencia
     porcentajeAnterio = widget.porcentaje;
-
 
     //Crear la animación
     return AnimatedBuilder(
@@ -58,8 +69,13 @@ class _RadialProgressState extends State<RadialProgress> with SingleTickerProvid
                               //child: Text('${widget.porcentaje}'),
                               child: CustomPaint(painter: _MiradialProgress(
                                 //widget.porcentaje
-                                (widget.porcentaje - diferenciaAnimar) + (diferenciaAnimar * controller.value)
-                                )),
+                                (widget.porcentaje - diferenciaAnimar) + (diferenciaAnimar * controller.value),
+                                widget.colorPrimario!,
+                                widget.grosorStrokFondo!,
+                                widget.grosorStrokArco!,
+                                widget.colorSecundario!
+                                )
+                                ),
                           );
             },
           );
@@ -70,9 +86,16 @@ class _RadialProgressState extends State<RadialProgress> with SingleTickerProvid
 
 class _MiradialProgress extends CustomPainter{
 
-  final porcentaje;
+  final double porcentaje;
+  final Color  colorPrimario;
+  final Color  colorSecundario;
+  final double grosorStrokFondo;
+  final double grosorStrokArco;
 
-  _MiradialProgress(this.porcentaje);
+  _MiradialProgress(this.porcentaje, this.colorPrimario, this.grosorStrokFondo, this.grosorStrokArco, this.colorSecundario);
+
+  // final RadialProgress propiedades;
+  // _MiradialProgress(this.propiedades);
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -80,8 +103,8 @@ class _MiradialProgress extends CustomPainter{
     //Dibujar Ciculo
     //Definir propiedades del lapiz
     final paint = Paint()
-    ..strokeWidth = 4
-    ..color       = Colors.grey
+    ..strokeWidth = grosorStrokFondo
+    ..color       = colorSecundario
     ..style       = PaintingStyle.stroke;
 
      //Propiedades para dibujar el circulo
@@ -96,8 +119,9 @@ class _MiradialProgress extends CustomPainter{
 
     //Dibujar el arco
     final paintArco = Paint()
-    ..strokeWidth = 10
-    ..color       = Colors.pink
+    ..strokeWidth = grosorStrokArco
+    ..color       = colorPrimario//Colors.pink
+    ..strokeCap   = StrokeCap.round
     ..style       = PaintingStyle.stroke;
 
     //Parte que se deberá ir llenando
