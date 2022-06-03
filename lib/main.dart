@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:disenos/src/pages/graficas_circulares_page.dart';
+import 'package:disenos/src/pages/slideshow_page.dart';
 
+//import 'package:disenos/src/pages/graficas_circulares_page.dart';
 //import 'package:disenos/src/labs/circular_progress_page.dart';
 //import 'package:disenos/src/retos/cuadrado_animado_page.dart';
 //import 'package:disenos/src/pages/animaciones_page.dart';
@@ -14,7 +15,7 @@ class MyApp extends StatelessWidget {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Diseños App',
-      home: GrafciasCircularesPage(),
+      home: SlideShowPage(),
    );
   }
 }
