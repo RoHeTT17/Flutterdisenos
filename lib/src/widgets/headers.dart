@@ -1,6 +1,7 @@
 // ignore_for_file: unnecessary_const
 
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class HeaderCuadrado extends StatelessWidget {
   const HeaderCuadrado({Key? key}) : super(key: key);
@@ -401,5 +402,90 @@ class _HeaderWaveGradiant extends CustomPainter{
     // TODO: implement shouldRepaint
     return true;
   }
+}
 
+class IconHeader extends StatelessWidget {
+
+ final IconData icon;
+ final String   titulo;
+ final String   subTitulo;
+       Color?    color1;
+       Color?    color2;
+
+ IconHeader({
+   Key? key,
+   required this.icon,
+   required this.titulo,
+   required this.subTitulo, 
+   this.color1 = Colors.blue,
+   this.color2 = Colors.blueGrey
+   }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+
+    //double sizevertical = MediaQuery.of(context).size.height;  
+    Color colorText     = Colors.white.withOpacity(0.7);
+
+    return Stack(
+      children:[ 
+
+                 _IconHeaderBackGround(color1: this.color1!, color2: this.color2!,),
+                 Positioned(
+                  top:  -50,
+                  left: -70,
+                  child: FaIcon(
+                               this.icon,
+                                size: 250,//(sizevertical*0.30),
+                                color: Colors.white.withOpacity(0.2),
+                                )
+                           ),
+                 Column(
+                    children: [
+                      /*
+                      Por defecto los widgets se alinean al widget mas grande, por si queremos llegar a
+                      centrarlos todos, solo basta con definir el tamaño del mas grande para que los demás se
+                      alineen a este. En este caso es hacia el primer SizeBox, por eso tiene el double,infinity
+                      */
+                      const SizedBox(height: 80, width: double.infinity,), 
+                      Text(this.subTitulo,   style: TextStyle(fontSize: 20, color: colorText),),
+                      const SizedBox(height: 20,),
+                      Text(this.titulo,style: TextStyle(fontSize: 25, color: colorText,fontWeight: FontWeight.bold), ),
+                      const SizedBox(height: 20,),
+                      FaIcon(this.icon,size: 80 ,color: Colors.white,)
+                    ],
+                 ),          
+               ]
+      );
+  }
+}
+
+class _IconHeaderBackGround extends StatelessWidget {
+  
+    final Color  color1;
+    final Color color2;
+  
+  const _IconHeaderBackGround({Key? key, required this.color1, required this.color2,}) : super(key: key);
+
+  //final double sizevertical;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width:  double.infinity,
+      height: 300,//sizevertical*0.50,
+      decoration: BoxDecoration(
+        //color: Colors.red,
+        borderRadius: BorderRadius.only(bottomLeft: Radius.circular(70)),
+        gradient: LinearGradient(
+          begin:  Alignment.topCenter,
+          end:    Alignment.bottomCenter,
+          colors: [
+            color1,
+            color2
+          ]
+        ),
+      ),
+    );
+  }
 }
