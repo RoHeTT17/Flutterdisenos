@@ -1,5 +1,7 @@
+import 'package:disenos/src/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:disenos/src/widgets/headers.dart';
+import 'package:provider/provider.dart';
 
 
 class HeaderPage extends StatelessWidget {
@@ -8,8 +10,12 @@ class HeaderPage extends StatelessWidget {
  
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: HeaderWaveGradiant(),
+
+    final colorSecundary = Provider.of<ThemeChanger>(context).getCurrentTheme.colorScheme.secondary;
+
+    return  Scaffold(
+      body: HeaderWave(color:colorSecundary), 
+        //HeaderWaveGradiant(),
    );
   }
 }

@@ -1,4 +1,6 @@
+import 'package:disenos/src/theme/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 
 class SliverListPage extends StatelessWidget {
@@ -40,6 +42,9 @@ class _MainScroll extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    final appTeheme = Provider.of<ThemeChanger>(context).getCurrentTheme;
+    
     return CustomScrollView(
       slivers: [
               
@@ -57,7 +62,7 @@ class _MainScroll extends StatelessWidget {
                   maxHeight: 200,
                   child: Container( //Se envuelve en un contariner para que no se encime en las opciones
                     alignment: Alignment.centerLeft,
-                    color: Colors.white, 
+                    color: appTeheme.scaffoldBackgroundColor, //Colors.white, 
                     child: const _Titulo()
                   )
                 ),
@@ -82,25 +87,33 @@ class _BotonNewList extends StatelessWidget {
   Widget build(BuildContext context) {
     
       final size = MediaQuery.of(context).size;
+      final appTheme = Provider.of<ThemeChanger>(context);
 
       return ButtonTheme(
         minWidth: size.width * 0.9,
         
         child: ElevatedButton(
           onPressed: (){}, 
-          style: ButtonStyle(
-            backgroundColor: MaterialStateProperty.all<Color>(Color(0xffED6762)),
+          style: ElevatedButton.styleFrom(
+            primary: (appTheme.getDarkTheme) 
+               ? appTheme.getCurrentTheme.colorScheme.secondary
+               : Color(0xffED6762),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.only(topLeft: Radius.circular(10)))
+          ),
+          
+          
+          /*ButtonStyle(
+            backgroundColor:MaterialStateProperty.all<Color>(Color(0xffED6762)),
             shape: MaterialStateProperty.all( const RoundedRectangleBorder(
               borderRadius: BorderRadius.only(topLeft: Radius.circular(10))
-            ))
-          ),
+            ))*/
           child: Container(
             height: 100,
-            child: const Center(
+            child:  Center(
               child: Text(
                 'CREATE NEW LIST',
                 style: TextStyle(
-                  color: Colors.white,
+                  color: appTheme.getCurrentTheme.scaffoldBackgroundColor,//Colors.white,
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
                   letterSpacing: 3
@@ -153,12 +166,20 @@ class _Titulo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    final appTeheme = Provider.of<ThemeChanger>(context);
+
     return Column(
       children: [
         const SizedBox(height: 30,),
         Container(
           margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
-          child: const Text("New", style: TextStyle(color: Color(0xff532128,), fontSize: 50),),
+          child:  Text(
+                             "New", 
+                             style: TextStyle(
+                                             color: (appTeheme.getDarkTheme) ? Colors.grey: Color(0xff532128,), 
+                                             fontSize: 50
+                                             ),),
         ),
 
         Stack(
@@ -169,7 +190,7 @@ class _Titulo extends StatelessWidget {
               child: Container(
                 width: 160,
                 height: 8,
-                color: const Color(0xffF7CDD5),
+                color: (appTeheme.getDarkTheme) ? Colors.grey: Color(0xffF7CDD5,),  //const Color(0xffF7CDD5),
               ),
             ),
 
@@ -218,15 +239,24 @@ class _ListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+     final appTeheme = Provider.of<ThemeChanger>(context);
+
     return Container(
        height: 130,
-       padding: EdgeInsets.all(30),
-       margin: const EdgeInsets.all(10),
+       padding: const EdgeInsets.all(30),
+       margin:  const EdgeInsets.all(10),
        decoration: BoxDecoration(
-         color: color,
+         color: (appTeheme.getDarkTheme) ? Colors.grey:  color,
          borderRadius: BorderRadius.circular(30)
        ),
-       child: Text(titulo, style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold, fontSize: 20),),
+       child: Text(
+                   titulo, 
+                   style: const TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold, 
+                                    fontSize: 20
+                                   ),),
        alignment: Alignment.centerLeft,
     );
   }

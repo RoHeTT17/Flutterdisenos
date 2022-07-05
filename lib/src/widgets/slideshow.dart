@@ -21,10 +21,10 @@ class Slideshow extends StatelessWidget {
   const Slideshow({
     Key? key, 
     required this.slides, 
-    this.dotsTop = false, 
-    this.colorPrimario = Colors.purple, 
-    this.colorSecundario = Colors.grey,
-     this.bulletPrimario = 12, 
+    this.dotsTop           = false, 
+    this.colorPrimario     = Colors.purple, 
+    this.colorSecundario   = Colors.grey,
+     this.bulletPrimario   = 12, 
      this.bullerSecundario = 12
     }) : super(key: key);
 
@@ -32,7 +32,7 @@ class Slideshow extends StatelessWidget {
   Widget build(BuildContext context) {
     
       return ChangeNotifierProvider(
-        create: (context) => _SliderShowMoidel(),//SliderMoidel(),
+        create: (context) => new _SliderShowMoidel(),//SliderMoidel(),
         child: SafeArea(
           child: Center(
             /*Para poder instanciar los colores atraves del Provider, se uso el widget Builder, este widget

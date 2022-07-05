@@ -1,3 +1,4 @@
+import 'package:disenos/src/theme/theme.dart';
 import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
@@ -43,11 +44,15 @@ class _UbicacionMenu extends StatelessWidget {
 
    final withPatalla = MediaQuery.of(context).size.width;
 
+   final appThem = Provider.of<ThemeChanger>(context).getCurrentTheme;
+
     return Positioned(
       child: Container(
               child: Align(
                      child: PinterestMenu(
                        mostrar: mostrarBotones,
+                       backgroundColor: appThem.scaffoldBackgroundColor,
+                       activeColor: appThem.colorScheme.secondary,
                        items: [
                                 //No se importa la clase PinteresButtom, porque ya esta implicia en al importación de
                                 //pinterest_menu.dart

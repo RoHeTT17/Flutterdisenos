@@ -265,7 +265,10 @@ class _HeaderCurvo extends CustomPainter{
 }
 
 class HeaderWave extends StatelessWidget {
-  const HeaderWave({Key? key}) : super(key: key);
+
+  Color? color = Color(0xff615AAB);
+
+  HeaderWave({Key? key, this.color}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -275,13 +278,18 @@ class HeaderWave extends StatelessWidget {
 
       //color: const Color(0xff615AAB), 
       child: CustomPaint(
-        painter: _HeaderWave(),
+        painter: _HeaderWave(this.color!),
       ),
     );
   }
 }
 
 class _HeaderWave extends CustomPainter{
+
+  final Color color;
+
+  _HeaderWave(this.color);
+
   @override
   void paint(Canvas canvas, Size size) {
     // El size, es el tamaño que difinimos en el height y width del container
@@ -290,7 +298,7 @@ class _HeaderWave extends CustomPainter{
     final paint =  Paint();
 
     //Propiedades
-    paint.color = const Color(0xff615AAB); //Color de la linea
+    paint.color = this.color;//const Color(0xff615AAB); //Color de la linea
     //paint.style = PaintingStyle.stroke; // Para solo dibujar lineas
     paint.style = PaintingStyle.fill; // Para rellenar el contenido
     paint.strokeWidth = 5; //Grosor de la linea
