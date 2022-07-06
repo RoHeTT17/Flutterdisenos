@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -6,22 +7,46 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:disenos/src/routes/routes.dart';
 import 'package:disenos/src/theme/theme.dart';
 
-class LauncherPage extends StatelessWidget {
+import 'package:disenos/src/models/layout_model.dart';
+
+class LauncherTablePage extends StatelessWidget {
  
-  const LauncherPage({Key? key}) : super(key: key);
+  const LauncherTablePage({Key? key}) : super(key: key);
  
   @override
   Widget build(BuildContext context) {
 
-    final appTheme = Provider.of<ThemeChanger>(context).getCurrentTheme;
+    final appTheme = Provider.of<ThemeChanger>(context);
+    final layoutModel = Provider.of<LayoutModel>(context);
+
     return Scaffold(
     
       appBar: AppBar(
-        backgroundColor: appTheme.colorScheme.secondary,
-        title: const Text('Diseños en Flutter - telefono'),
+        backgroundColor: appTheme.getCurrentTheme.colorScheme.secondary,
+        title: const Text('Diseños en Flutter - Tablet'),
       ),
-      body: _ListaMenu(),
+      //body: _ListaMenu(),
       drawer: _MenuPrincipal(), //Menú la teral
+      body: Row(
+        children: [
+          Container(
+            width: 250,
+            height: double.infinity,
+           child: _ListaMenu(),
+          ),
+
+          Container(
+            width: 1,
+            height: double.infinity,
+            color: (appTheme.getDarkTheme)
+                    ? Colors.grey
+                    :  appTheme.getCurrentTheme.colorScheme.secondary,
+          ),
+
+           Expanded(child: layoutModel.getCurrentPage)
+
+        ],
+      ),
     );
   }
 }
@@ -32,7 +57,7 @@ class _ListaMenu extends StatelessWidget {
   Widget build(BuildContext context) {
 
       final appTheme = Provider.of<ThemeChanger>(context).getCurrentTheme;
-
+    
       return ListView.separated(
         physics: BouncingScrollPhysics(),
         itemCount: pageRoutes.length,
@@ -41,8 +66,10 @@ class _ListaMenu extends StatelessWidget {
           title:    Text (pageRoutes[i].titulo),
           trailing: Icon(Icons.chevron_right, color: appTheme.colorScheme.secondary,),
           onTap: (){
-              //Navigator.push(context, pageRoutes[i].page);
-              Navigator.push(context, MaterialPageRoute(builder: (context) => pageRoutes[i].page));
+             //Navigator.push(context, MaterialPageRoute(builder: (context) => pageRoutes[i].page));
+          
+            final layoutModel = Provider.of<LayoutModel>(context,listen: false);
+            layoutModel.setCurrentPage = pageRoutes[i].page;
           },
         ), 
         separatorBuilder: (context, i) => Divider(

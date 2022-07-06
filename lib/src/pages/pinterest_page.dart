@@ -42,28 +42,42 @@ class _UbicacionMenu extends StatelessWidget {
 
    final mostrarBotones = Provider.of<_MenuModel>(context).getMostrar;
 
-   final withPatalla = MediaQuery.of(context).size.width;
+   double withPatalla = MediaQuery.of(context).size.width;
 
    final appThem = Provider.of<ThemeChanger>(context).getCurrentTheme;
 
+    if(withPatalla > 500){
+      //Es una tablet ó tamaño grande
+      //Es -250, porque es el valro que le di a la barra lateral del menu el launcher_tablet_page
+      withPatalla = withPatalla - 250;  
+
+    }
+
     return Positioned(
       child: Container(
-              child: Align(
-                     child: PinterestMenu(
-                       mostrar: mostrarBotones,
-                       backgroundColor: appThem.scaffoldBackgroundColor,
-                       activeColor: appThem.colorScheme.secondary,
-                       items: [
+              width: withPatalla,
+              //Se quito el Align y se agrego el Row porque era mas facíl usarlo para centrar con el Spacer
+              child: Row(
+                children: [
+                    Spacer(),
+
+                    PinterestMenu(
+                        mostrar: mostrarBotones,
+                        backgroundColor: appThem.scaffoldBackgroundColor,
+                        activeColor: appThem.colorScheme.secondary,
+                        items: [
                                 //No se importa la clase PinteresButtom, porque ya esta implicia en al importación de
                                 //pinterest_menu.dart
                                 PinteresButtom(onPress: (){ print( 'icono 1' ); }, icon: Icons.pie_chart),
                                 PinteresButtom(onPress: (){ print( 'icono 2'); },  icon: Icons.search),
                                 PinteresButtom(onPress: (){ print( 'icono 3'); },  icon: Icons.notifications),
                                 PinteresButtom(onPress: (){ print( 'icono 4'); },  icon: Icons.supervised_user_circle)
-                       ],
-                       ),
-              ),
-              width: withPatalla,  
+                        ],
+                    ),
+                    
+                    Spacer(),
+                ],
+              ), 
       ),
       bottom: 30,
       );
@@ -112,10 +126,19 @@ class _PinterestGridState extends State<PinterestGrid> {
 
   @override
   Widget build(BuildContext context) {
+
+    int countColum;
+
+    if(MediaQuery.of(context).size.height > 500){
+      countColum = 3;
+    }else{
+      countColum = 2;
+    }  
+
     return GridView.custom(
                   controller: scrollController,
                   gridDelegate:  SliverWovenGridDelegate.count(
-                        crossAxisCount: 2,
+                        crossAxisCount: countColum,
                         mainAxisSpacing: 1,
                         crossAxisSpacing: 1,
                         pattern: const [

@@ -12,7 +12,11 @@ class ThemeChanger extends ChangeNotifier{
         case 1: // light
                 _darkTheme    = false;
                 _customTheme  = false;
-                _currentTheme = ThemeData.light();
+                _currentTheme = ThemeData.light().copyWith(
+                                                            colorScheme: ColorScheme.dark().copyWith(
+                                                                  secondary:  Colors.pink
+                                                            ),
+                                                        );
         break;
         case 2: //Dark
                 _darkTheme    = true;
@@ -40,9 +44,15 @@ class ThemeChanger extends ChangeNotifier{
     _customTheme = false;
 
     if(value){
-      _currentTheme = ThemeData.dark();
+      _currentTheme = ThemeData.dark().copyWith(
+                                                colorScheme: ColorScheme.dark().copyWith(
+                                                                  secondary:  Colors.pink),
+                                               );
     }else{
-      _currentTheme = ThemeData.light();
+      _currentTheme = ThemeData.light().copyWith(
+                                                colorScheme: ColorScheme.dark().copyWith(
+                                                                  secondary:  Colors.pink),
+                                               );
     }
 
     notifyListeners();

@@ -16,15 +16,20 @@ class ItemBoton {
   ItemBoton( this.icon, this.texto, this.color1, this.color2 );
 }
 
-
-
-
 class EmergencyPage extends StatelessWidget {
  
   const EmergencyPage({Key? key}) : super(key: key);
  
   @override
   Widget build(BuildContext context) {
+
+    bool isLarge;
+
+    if(MediaQuery.of(context).size.height > 550){
+      isLarge = true;
+    }else{
+      isLarge = false;
+    }  
 
   final items = <ItemBoton>[
     new ItemBoton( FontAwesomeIcons.carCrash, 'Motor Accident', Color(0xff6989F5), Color(0xff906EF5) ),
@@ -53,18 +58,25 @@ class EmergencyPage extends StatelessWidget {
       body: Stack(
         children: [
           Container(
-            margin: const EdgeInsets.only(top: 200),
-            child: ListView(
-                    physics: BouncingScrollPhysics(),
-                    children: [
-                          const SizedBox(height: 80,),
-                          ...itemMap //desplegar todo el listado
-                    ],
+            margin: EdgeInsets.only(top: (isLarge)? 220 : 20),
+            child: SafeArea(
+              child: ListView(
+                      physics: BouncingScrollPhysics(),
+                      children: [
+            
+                            if(isLarge)
+                               const SizedBox(height: 80,),
+            
+                            ...itemMap //desplegar todo el listado
+                      ],
+              ),
             ),
           ),
 
           //Entre mas abajo se esta en el código significa que esta mas arriba en la pantalla
-          const _Header()
+          //Si es bastante largo, mostrar el encabezado
+          if(isLarge)
+             const _Header()
         ],
       )
    );
